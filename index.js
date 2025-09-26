@@ -10,9 +10,8 @@ import authRoutes from './auth/routes/authRoutes.js';
 // import rolRoutes from './auth/routes/rolRoutes.js';
 
 
-/***  Rutas Maestros del sistema */
-// import dependenciaRoutes from './modules/maestras/Dependencia/dependenciaRoutes.js';
-
+/* Rutas del módulo Comercial */
+import lotteryParticipationsRoutes from './modules/maestras/LotteryParticipations/lotteryParticipationsRoutes.js';
 
 /*** Crear app   */
 const app = express();
@@ -48,7 +47,7 @@ app.use('/api_comercial/auth', authRoutes);
 
 
 /***  Rutas del sistema */
-// app.use('/api_manzanares/dependencias', dependenciaRoutes);
+app.use('/api_comercial/lottery-participations', lotteryParticipationsRoutes);
 
 // hola
 /***
