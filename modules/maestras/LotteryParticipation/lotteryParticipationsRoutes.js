@@ -1,5 +1,5 @@
 import express from 'express';
-import { getByCode, getPendingMessages } from './lotteryParticipationsController.js';
+import { getByCode, getPendingMessages, markUsedByCode } from './lotteryParticipationsController.js';
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ router.get('/code/:code', getByCode);
 
 
 // NUEVA: marcar como usado (status = false)
-router.put('/code/:code/use', markUsedByCode);
+router.put('/code/:code', markUsedByCode);
 
 
 // Ruta principal para mostrar información
