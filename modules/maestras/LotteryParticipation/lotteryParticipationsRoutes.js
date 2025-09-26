@@ -1,10 +1,13 @@
 import express from 'express';
-import { getPendingMessages } from './lotteryParticipationsController.js';
+import { getByCode, getPendingMessages } from './lotteryParticipationsController.js';
 
 const router = express.Router();
 
-// GET - Obtener registros que NO han recibido mensaje (message = 0)
+// GET - Obtener registros que NO han recibido mensaje de whatsapp (message = 0)
 router.get('/pending', getPendingMessages);
+
+//ruta consulta por codigo para el Pos
+router.get('/code/:code', getByCode);
 
 // Ruta principal para mostrar información
 router.get('/', (req, res) => {
