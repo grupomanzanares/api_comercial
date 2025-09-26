@@ -22,7 +22,7 @@ export const getPendingMessages = async (req, res) => {
             ],
             include: [
                 { model: Lottery, as: 'lottery', attributes: ['id', 'name', 'startDate', 'endDate'] },
-                { model: Subscriber, as: 'subscriber', attributes: ['id', 'name', 'email', 'phone'] },
+                { model: Subscriber, as: 'subscriber', attributes: ['identification', 'name', 'phone'] },
             ],
             order: [['date', 'ASC']],
             limit,
