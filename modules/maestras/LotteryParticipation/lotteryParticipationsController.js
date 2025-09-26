@@ -3,7 +3,7 @@ import {
     LotteryParticipation,
     Lottery,
     Subscriber,
-} from '../../models/index.js'; // <-- importe desde el index
+} from '../index.js'; // <-- importe desde el index
 
 export const getPendingMessages = async (req, res) => {
     try {
