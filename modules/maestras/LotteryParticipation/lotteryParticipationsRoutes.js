@@ -11,7 +11,7 @@ router.get('/code/:code', getByCode);
 
 
 // NUEVA: marcar como usado (status = false)
-router.post('/code/:code/use', markUsedByCode);
+router.put('/code/:code/use', markUsedByCode);
 
 
 // Ruta principal para mostrar información
