@@ -88,8 +88,6 @@ const getByCode = async (req, res) => {
 };
 
 // Exportaciones nombradas para usarlas desde el archivo de rutas
-exp
-
 export {
     getPendingMessages,
     getByCode
