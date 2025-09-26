@@ -5,7 +5,7 @@ import {
     Subscriber,
 } from '../index.js'; // <-- importe desde el index
 
-export const getPendingMessages = async (req, res) => {
+const getPendingMessages = async (req, res) => {
     try {
         const limit = Number(req.query.limit) || 100;
         const offset = Number(req.query.offset) || 0;
@@ -40,3 +40,8 @@ export const getPendingMessages = async (req, res) => {
         res.status(500).json({ success: false, message: 'Error al consultar la base de datos', error: error.message });
     }
 };
+
+
+export {
+    getPendingMessages
+}
