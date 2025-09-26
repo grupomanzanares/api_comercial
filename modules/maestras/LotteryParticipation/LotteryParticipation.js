@@ -1,6 +1,5 @@
 import { DataTypes, Sequelize } from 'sequelize'      //Cargamas DataTypes de sqquelize para el manejo de tipos
 import db from '../config/db.js'           //Traemos la configuracion de la Base de datos
-import Lottery from './Lottery.js'           //Traemos la configuracion de la Base de datos
 
 
 const LotteryParticipation = db.define('LotteryParticipations', {

@@ -1,10 +1,10 @@
-import LotteryParticipation from './lotteryParticipations.js';
+import LotteryParticipation from './LotteryParticipation.js';
 
 // GET - Obtener registros que NO han recibido mensaje (message = false)
 export const getPendingMessages = async (req, res) => {
     try {
         console.log('🔍 Buscando registros con message = false...');
-        
+
         // Consulta usando el modelo Sequelize
         const pendingRecords = await LotteryParticipation.findAll({
             where: {

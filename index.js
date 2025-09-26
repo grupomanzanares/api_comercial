@@ -11,7 +11,7 @@ import authRoutes from './auth/routes/authRoutes.js';
 
 
 /* Rutas del módulo Comercial */
-import lotteryParticipationsRoutes from './modules/maestras/LotteryParticipations/lotteryParticipationsRoutes.js';
+import lotteryParticipationsRoutes from './modules/maestras/LotteryParticipation/lotteryParticipationsRoutes.js';
 
 /*** Crear app   */
 const app = express();
