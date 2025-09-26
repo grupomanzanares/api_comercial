@@ -1,35 +1,42 @@
-import LotteryParticipation from './LotteryParticipation.js';
+// controllers/lotteryParticipationsController.js
+import {
+    LotteryParticipation,
+    Lottery,
+    Subscriber,
+} from '../../models/index.js'; // <-- importe desde el index
 
-// GET - Obtener registros que NO han recibido mensaje (message = false)
 export const getPendingMessages = async (req, res) => {
     try {
-        console.log('🔍 Buscando registros con message = false...');
+        const limit = Number(req.query.limit) || 100;
+        const offset = Number(req.query.offset) || 0;
 
-        // Consulta usando el modelo Sequelize
-        const pendingRecords = await LotteryParticipation.findAll({
+        const rows = await LotteryParticipation.findAll({
             where: {
-                message: false  // En tu modelo message es BOOLEAN, no INTEGER
+                message: false,   // TINYINT(1) ↔ BOOLEAN
+                // status: true,  // descomente si necesita este filtro también
             },
-            order: [
-                ['date', 'ASC'] // Ordenar por fecha, los más antiguos primero
-            ]
+            attributes: [
+                'id', 'date', 'code', 'status', 'message',
+                'createdAt', 'updatedAt',
+                'lotteryId', 'subscriberId',
+            ],
+            include: [
+                { model: Lottery, as: 'lottery', attributes: ['id', 'name', 'startDate', 'endDate'] },
+                { model: Subscriber, as: 'subscriber', attributes: ['id', 'name', 'email', 'phone'] },
+            ],
+            order: [['date', 'ASC']],
+            limit,
+            offset,
         });
-
-        console.log(`✅ Encontrados ${pendingRecords.length} registros pendientes`);
 
         res.json({
             success: true,
             message: 'Registros pendientes de envío obtenidos correctamente',
-            total: pendingRecords.length,
-            data: pendingRecords
+            total: rows.length,
+            data: rows,
         });
-
     } catch (error) {
         console.error('❌ Error al obtener registros pendientes:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Error al consultar la base de datos',
-            error: error.message
-        });
+        res.status(500).json({ success: false, message: 'Error al consultar la base de datos', error: error.message });
     }
 };
