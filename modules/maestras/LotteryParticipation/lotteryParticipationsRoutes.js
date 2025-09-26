@@ -9,6 +9,11 @@ router.get('/pending', getPendingMessages);
 //ruta consulta por codigo para el Pos
 router.get('/code/:code', getByCode);
 
+
+// NUEVA: marcar como usado (status = false)
+router.patch('/code/:code/use', markUsedByCode);
+
+
 // Ruta principal para mostrar información
 router.get('/', (req, res) => {
     res.json({

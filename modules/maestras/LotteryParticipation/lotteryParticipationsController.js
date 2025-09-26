@@ -87,8 +87,58 @@ const getByCode = async (req, res) => {
     }
 };
 
+
+/** PATCH /lottery-participations/code/:code/use  */
+const markUsedByCode = async (req, res) => {
+    try {
+        const raw = (req.params.code || '').trim();
+        if (!raw) return res.status(400).json({ success: false, message: 'Falta el parámetro :code' });
+
+        const code = raw.toUpperCase();
+
+        // 1) Intentar marcar como usado solo si estaba activo (status = true)
+        const [affected] = await LotteryParticipation.update(
+            { status: false },                      // lo marcamos usado
+            { where: { code, status: true } }       // evita doble uso
+        );
+
+        if (affected === 0) {
+            // Puede ser que no exista o ya esté usado
+            const exists = await LotteryParticipation.count({ where: { code } });
+            if (!exists) {
+                return res.status(404).json({ success: false, message: 'Código no encontrado', code });
+            }
+            return res.status(409).json({ success: false, message: 'El código ya fue utilizado', code });
+        }
+
+        // 2) Devolver el registro actualizado con relaciones
+        const row = await LotteryParticipation.findOne({
+            where: { code },
+            attributes: [
+                'id', 'date', 'code', 'status', 'message',
+                'createdAt', 'updatedAt', 'lotteryId', 'subscriberId'
+            ],
+            include: [
+                { model: Lottery, as: 'lottery', attributes: ['id', 'name', 'startDate', 'endDate'] },
+                { model: Subscriber, as: 'subscriber', attributes: ['identification', 'name', 'phone'] }
+            ]
+        });
+
+        return res.json({
+            success: true,
+            message: 'Código marcado como usado correctamente',
+            data: row
+        });
+    } catch (error) {
+        console.error('❌ Error markUsedByCode:', error);
+        return res.status(500).json({ success: false, message: 'Error al actualizar el registro', error: error.message });
+    }
+};
+
+
 // Exportaciones nombradas para usarlas desde el archivo de rutas
 export {
     getPendingMessages,
-    getByCode
+    getByCode,
+    markUsedByCode,
 }
